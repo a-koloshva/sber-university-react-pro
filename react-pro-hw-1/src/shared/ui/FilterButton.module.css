@@ -1,0 +1,12 @@
+.button {
+    padding: 8px 16px;
+    border-radius: 8px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+.button:disabled:hover {
+    cursor: default;
+}
