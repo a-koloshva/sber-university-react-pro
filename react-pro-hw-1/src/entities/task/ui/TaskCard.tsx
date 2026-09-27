@@ -1,13 +1,16 @@
+import { memo } from 'react';
 import type { Task } from '../model/types';
 import styles from './TaskCard.module.css';
 
 type Props = {
     task: Task;
     removeTask: (id: Task['id']) => void;
+    toggleTask: (id: Task['id']) => void;
 };
 
-export const TaskCard = ({ task, removeTask }: Props) => {
+export const TaskCard = memo(function TaskCard({ task, removeTask, toggleTask }: Props) {
     const handleRemoveTask = () => removeTask(task.id);
+    const handleToggleTask = () => toggleTask(task.id);
 
     return (
         <div className={styles.task}>
@@ -17,14 +20,14 @@ export const TaskCard = ({ task, removeTask }: Props) => {
                 id="checkbox"
                 checked={task.completed}
                 className={styles.checkbox}
-                readOnly
+                onChange={handleToggleTask}
             />
             <div className={`${styles.title} ${task.completed ? styles.completed : ''}`}>
                 {task.title}
             </div>
-            <div className={styles.delete} onClick={handleRemoveTask}>
+            <button type="button" className={styles.delete} onClick={handleRemoveTask}>
                 удалить
-            </div>
+            </button>
         </div>
     );
-};
+});

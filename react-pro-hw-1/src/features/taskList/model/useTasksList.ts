@@ -1,24 +1,6 @@
 import type { Task } from 'entities/task';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import type { Filter, Filters } from './types';
-
-const initialTasks: Task[] = [
-    {
-        id: '1',
-        title: 'сделать домашку',
-        completed: false,
-    },
-    {
-        id: '2',
-        title: 'покормить кошку',
-        completed: true,
-    },
-    {
-        id: '3',
-        title: 'сходить в магазин',
-        completed: false,
-    },
-];
 
 const filters: Filters[] = [
     { value: 'all', label: 'Все' },
@@ -32,25 +14,63 @@ export const useTasksList = (): {
     currentFilter: Filter;
     setCurrentFilter: (filter: Filter) => void;
     removeTask: (id: Task['id']) => void;
+    toggleTask: (id: Task['id']) => void;
 } => {
+    const initialTasks: Task[] = [
+        {
+            id: '1',
+            title: 'сделать домашку',
+            completed: false,
+        },
+        {
+            id: '2',
+            title: 'покормить кошку',
+            completed: true,
+        },
+        {
+            id: '3',
+            title: 'сходить в магазин',
+            completed: false,
+        },
+    ];
+
     const [tasks, setTasks] = useState<Task[]>(initialTasks);
     const [currentFilter, setCurrentFilter] = useState<Filter>('all');
 
-    const filteredTasks = tasks.filter((task) => {
-        if (currentFilter === 'completed') {
-            return task.completed;
-        }
+    const filteredTasks = useMemo(
+        () =>
+            tasks.filter((task) => {
+                if (currentFilter === 'completed') {
+                    return task.completed;
+                }
 
-        if (currentFilter === 'incomplete') {
-            return !task.completed;
-        }
+                if (currentFilter === 'incomplete') {
+                    return !task.completed;
+                }
 
-        return tasks;
-    });
+                return true;
+            }),
+        [tasks, currentFilter],
+    );
 
-    const removeTask = (id: Task['id']) => {
+    const removeTask = useCallback((id: Task['id']) => {
         setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-    };
+    }, []);
 
-    return { tasks: filteredTasks, filters, currentFilter, setCurrentFilter, removeTask };
+    const toggleTask = useCallback((id: Task['id']) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) =>
+                task.id === id ? { ...task, completed: !task.completed } : task,
+            ),
+        );
+    }, []);
+
+    return {
+        tasks: filteredTasks,
+        filters,
+        currentFilter,
+        setCurrentFilter,
+        removeTask,
+        toggleTask,
+    };
 };
