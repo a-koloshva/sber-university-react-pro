@@ -1,7 +1,8 @@
 import { useTasksList, TasksList, TasksFilters } from 'features/taskList';
 
 export const TasksWidget = () => {
-    const { tasks, filters, currentFilter, setCurrentFilter, removeTask } = useTasksList();
+    const { tasks, filters, currentFilter, setCurrentFilter, removeTask, toggleTask } =
+        useTasksList();
 
     return (
         <div>
@@ -10,7 +11,7 @@ export const TasksWidget = () => {
                 currentFilter={currentFilter}
                 setCurrentFilter={setCurrentFilter}
             />
-            <TasksList tasks={tasks} removeTask={removeTask} />
+            <TasksList tasks={tasks} removeTask={removeTask} toggleTask={toggleTask} />
         </div>
     );
 };
