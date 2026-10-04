@@ -74,6 +74,10 @@ export default [
                         { from: 'entities', allow: ['shared'] },
                         { from: 'widgets', allow: ['shared', 'features', 'entities'] },
                         { from: 'pages', allow: ['widgets', 'features', 'entities', 'shared'] },
+                        {
+                            from: 'app',
+                            allow: ['pages', 'widgets', 'features', 'entities', 'shared'],
+                        },
                     ],
                 },
             ],

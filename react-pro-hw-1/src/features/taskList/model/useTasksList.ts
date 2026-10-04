@@ -1,5 +1,6 @@
 import type { Task } from 'entities/task';
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useTasks } from './useTasks';
 import type { Filter, Filters } from './types';
 
 const filters: Filters[] = [
@@ -16,25 +17,8 @@ export const useTasksList = (): {
     removeTask: (id: Task['id']) => void;
     toggleTask: (id: Task['id']) => void;
 } => {
-    const initialTasks: Task[] = [
-        {
-            id: '1',
-            title: 'сделать домашку',
-            completed: false,
-        },
-        {
-            id: '2',
-            title: 'покормить кошку',
-            completed: true,
-        },
-        {
-            id: '3',
-            title: 'сходить в магазин',
-            completed: false,
-        },
-    ];
+    const { tasks, removeTask, toggleTask } = useTasks();
 
-    const [tasks, setTasks] = useState<Task[]>(initialTasks);
     const [currentFilter, setCurrentFilter] = useState<Filter>('all');
 
     const filteredTasks = useMemo(
@@ -52,18 +36,6 @@ export const useTasksList = (): {
             }),
         [tasks, currentFilter],
     );
-
-    const removeTask = useCallback((id: Task['id']) => {
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
-    }, []);
-
-    const toggleTask = useCallback((id: Task['id']) => {
-        setTasks((prevTasks) =>
-            prevTasks.map((task) =>
-                task.id === id ? { ...task, completed: !task.completed } : task,
-            ),
-        );
-    }, []);
 
     return {
         tasks: filteredTasks,
