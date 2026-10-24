@@ -6,7 +6,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '6-shared/lib/authContext';
-import { getMessageFromError, parseErrorWithZod } from '6-shared/lib/common';
+import { parseErrorWithZod } from '6-shared/lib/common';
 import { useSignUpApi } from './api';
 import type { SignUpFormValues } from './model';
 import { signUpSchema } from './model';

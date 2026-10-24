@@ -10,7 +10,7 @@ export const SignOut = () => {
     useEffect(() => {
         logout();
 
-        navigate('/');
+        navigate('/login', { replace: true });
     }, [logout, navigate]);
 
     return null;

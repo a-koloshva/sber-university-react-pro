@@ -8,14 +8,17 @@ export const AuthContext = createContext<AuthContextModel>({
     name: '',
     login: () => {},
     logout: () => {},
+    updateUserInfo: () => {},
 });
 
-export const useAuthContext = () => {
+export const useAuth = () => {
     const authContext = useContext(AuthContext);
 
     if (!authContext) {
-        throw new Error(`${useAuthContext.name} должен использоваться только внутри ${AuthContext.Provider.name}`);
+        throw new Error(`${useAuth.name} должен использоваться только внутри ${AuthContext.Provider.name}`);
     }
 
     return authContext;
 };
+
+export const useAuthContext = useAuth;

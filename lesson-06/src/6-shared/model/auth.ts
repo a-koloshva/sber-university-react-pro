@@ -8,6 +8,7 @@ export interface AuthInfo {
 export interface AuthMethods {
     login: (authInfo: AuthInfo) => void;
     logout: () => void;
+    updateUserInfo: (userInfo: Pick<AuthInfo, 'userId' | 'name'>) => void;
 }
 
 export type AuthContextModel = AuthInfo & AuthMethods;

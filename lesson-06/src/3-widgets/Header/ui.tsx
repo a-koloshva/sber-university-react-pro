@@ -1,12 +1,14 @@
 import { AppBar, Box, Link, Toolbar, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { useAuthContext } from '6-shared/lib/authContext';
-import { AUTHORIZED_LINKS, UNAUTHORIZED_LINKS } from './config';
+import { AUTHORIZED_LINKS, PUBLIC_LINKS, UNAUTHORIZED_LINKS } from './config';
 
 export const Header: FC = () => {
     const { accessToken } = useAuthContext();
 
     const links = accessToken ? AUTHORIZED_LINKS : UNAUTHORIZED_LINKS;
+
+    const allLinks = [...PUBLIC_LINKS, ...links];
 
     return (
         <AppBar
@@ -23,7 +25,7 @@ export const Header: FC = () => {
                 </Link>
 
                 <Box component="nav" sx={{ ml: 'auto' }}>
-                    {links.map((link) => (
+                    {allLinks.map((link) => (
                         <Link key={link.href} href={link.href} sx={{ mx: 1 }}>
                             {link.title}
                         </Link>
