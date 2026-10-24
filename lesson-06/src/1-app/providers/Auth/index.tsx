@@ -54,13 +54,26 @@ export const withAuthContext = (WrappedComponent: ComponentType) => () => {
         });
     }, []);
 
+    const updateUserInfo: AuthMethods['updateUserInfo'] = useCallback((userInfo) => {
+        saveToLocaleStorage({
+            key: USER_INFO_LS_KEY,
+            state: userInfo,
+        });
+
+        setAuthInfo((previousAuthInfo) => ({
+            ...previousAuthInfo,
+            ...userInfo,
+        }));
+    }, []);
+
     const contextValue: AuthContextModel = useMemo(
         () => ({
             ...authInfo,
             login,
             logout,
+            updateUserInfo,
         }),
-        [authInfo, login, logout],
+        [authInfo, login, logout, updateUserInfo],
     );
 
     return (

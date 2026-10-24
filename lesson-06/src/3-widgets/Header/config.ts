@@ -7,7 +7,7 @@ export const AUTHORIZED_LINKS: HeaderLink[] = [
     },
     {
         href: '/signOut',
-        title: 'SignOut',
+        title: 'Выйти',
     },
 ];
 
@@ -17,7 +17,14 @@ export const UNAUTHORIZED_LINKS: HeaderLink[] = [
         title: 'SignUp',
     },
     {
-        href: '/signIn',
-        title: 'SignIn',
+        href: '/login',
+        title: 'Login',
+    },
+];
+
+export const PUBLIC_LINKS: HeaderLink[] = [
+    {
+        href: '/public',
+        title: 'Public',
     },
 ];

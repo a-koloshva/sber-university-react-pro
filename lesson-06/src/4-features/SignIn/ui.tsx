@@ -3,7 +3,7 @@ import { Box, Button, Container, TextField, Typography } from '@mui/material';
 import type { FC } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { useLocation, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '6-shared/lib/authContext';
 import { parseErrorWithZod } from '6-shared/lib/common';
@@ -33,8 +33,6 @@ export const SignIn: FC = () => {
 
     const { login } = useAuthContext();
 
-    const location = useLocation();
-
     const submitHandler = async (formValues: SignInFormValues) => {
         try {
             const response = await mutateAsync(formValues);
@@ -47,7 +45,9 @@ export const SignIn: FC = () => {
                     refreshToken: '',
                 });
                 toast.success('Вы успешно вошли в систему');
-                navigate(location.state.from || '/');
+                navigate('/profile');
+            } else {
+                toast.error(response.message.join(', '));
             }
         } catch (error) {
             toast.error(parseErrorWithZod(error, 'Неизвестная ошибка при входе в систему'));
@@ -68,6 +68,7 @@ export const SignIn: FC = () => {
                             <TextField
                                 {...field}
                                 fullWidth
+                                required
                                 type="email"
                                 error={!!errors.email}
                                 helperText={errors.email?.message}
@@ -83,6 +84,7 @@ export const SignIn: FC = () => {
                             <TextField
                                 {...field}
                                 fullWidth
+                                required
                                 type="password"
                                 autoComplete="current-password"
                                 error={!!errors.password}
